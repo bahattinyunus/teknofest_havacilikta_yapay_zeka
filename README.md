@@ -36,11 +36,17 @@ Amacımız, karmaşık arama-kurtarma, gözetleme ve lojistik görevlerini insan
 
 ### 🚁 2. Otonom Seyrüsefer & Kontrol
 *   **GPS Tabanlı Navigasyon**: Haversine formülü ile hassas waypoint takibi.
+*   **MAVLink Entegrasyonu**: Pixhawk, Cube Orange ve ArduPilot SITL ile tam uyumlu çift yönlü iletişim.
 *   **Görev Yönetimi**: JSON tabanlı görev dosyaları ile karmaşık uçuş planları oluşturma.
 *   **Hassas PID Kontrolü**: Zorlu hava koşullarında bile stabil uçuş sağlayan optimize edilmiş kontrol döngüleri.
 *   **Güvenli Modlar**: Eve Dönüş (RTL), Otomatik İniş ve Acil Durum modları.
 
-### 💻 3. Yeni Nesil Yer Kontrol İstasyonu (YKİ)
+### 🧪 3. Simülasyon & Yapay Zeka (RL)
+*   **OpenAI Gym Ortamı**: Otonom iniş ve manevra için RL ajanları geliştirebileceğiniz `gym` tabanlı eğitim ortamı.
+*   **SITL Desteği**: Donanım riski olmadan "Software In The Loop" simülasyonu ile kodunuzu test edin.
+*   **Canlı Simülasyon**: Dashboard içinde çalışan fizik tabanlı görsel simülatör.
+
+### 💻 4. Yeni Nesil Yer Kontrol İstasyonu (YKİ)
 *   **3B Harita Entegrasyonu**: Drone'un konumunu ve rotasını uydu haritası üzerinde canlı izleyin.
 *   **Canlı Simülasyon**: Gerçek uçuş verileriyle senkronize çalışan yapay ufuk ve çevre simülasyonu.
 *   **Anlık Telemetri**: İrtifa (AGL), Yer Hızı, Pil Durumu ve GPS verilerinin saniyelik takibi.

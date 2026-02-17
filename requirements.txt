@@ -11,3 +11,5 @@ pygame>=2.5.0  # For simulation visualization if needed
 pytest>=7.4.0
 black>=23.7.0
 flake8>=6.1.0
+pymavlink>=2.4.0
+gym>=0.26.0

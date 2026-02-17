@@ -9,6 +9,7 @@ import pydeck as pdk
 from src.simulation.video_stream import VideoSynthesizer
 from src.control.navigator import Navigator
 from src.mission.loader import MissionLoader
+from src.telemetry.mavlink_bridge import MavlinkBridge
 
 st.set_page_config(
     page_title="SkyGuard AI - Yer Kontrol İstasyonu",
@@ -43,14 +44,32 @@ if 'navigator' not in st.session_state:
     st.session_state.navigator.set_home(41.0082, 28.9784, 0)
 if 'mission_loader' not in st.session_state:
     st.session_state.mission_loader = MissionLoader()
+if 'mav_bridge' not in st.session_state:
+    st.session_state.mav_bridge = MavlinkBridge()
 
 # Sidebar
 with st.sidebar:
-    st.header("Sistem Durumu")
-    connection_status = st.empty()
-    connection_status.success("Telemetri Akışına Bağlandı")
+    st.header("Bağlantı Ayarları")
+    connection_mode = st.radio("Veri Kaynağı", ["Simülasyon", "MAVLink (Donanım/SITL)"])
     
+    if connection_mode == "MAVLink (Donanım/SITL)":
+        conn_str = st.text_input("Bağlantı Adresi", "udp:127.0.0.1:14550")
+        if st.button("Bağlan"):
+            if st.session_state.mav_bridge.connect():
+                st.success("MAVLink Bağlandı!")
+            else:
+                st.error("Bağlantı Hatası!")
+        
+        if st.session_state.mav_bridge.connected:
+            st.info("Durum: BAĞLI 🟢")
+        else:
+            st.warning("Durum: AYRIK 🔴")
+    else:
+        st.info("Durum: SİMÜLASYON 🔵")
+
     st.divider()
+    
+    st.header("Sistem Durumu")
     
     st.subheader("Görev Yöneticisi")
     mission_files = glob.glob("data/missions/*.json")
@@ -68,33 +87,55 @@ with st.sidebar:
     
     st.subheader("Uçuş Kontrolü")
     if st.button("SİSTEMİ BAŞLAT (ARM)", type="primary"):
-        st.toast("Sistem BAŞLATILDI (ARMED)!", icon="⚠️")
+        if connection_mode == "MAVLink (Donanım/SITL)" and st.session_state.mav_bridge.connected:
+            st.session_state.mav_bridge.arm()
+            st.toast("MAVLink: ARM Komutu Gönderildi", icon="⚠️")
+        else:
+            st.toast("Sistem BAŞLATILDI (ARMED)!", icon="⚠️")
     
     if st.button("OTONOM GÖREVİ BAŞLAT"):
         st.toast("Otonom Mod Aktif", icon="🤖")
 
     if st.button("EVE DÖN (RTL)"):
-        st.toast("Eve Dönüş Modu Aktif", icon="🏠")
+        if connection_mode == "MAVLink (Donanım/SITL)" and st.session_state.mav_bridge.connected:
+             st.session_state.mav_bridge.set_mode("RTL")
+             st.toast("MAVLink: RTL Moduna Geçildi", icon="🏠")
+        else:
+            st.toast("Eve Dönüş Modu Aktif", icon="🏠")
 
-# Mock Data (Now with GPS)
-def get_mock_data():
-    t = time.time()
-    # Circular path for demo
-    lat = 41.0082 + np.sin(t * 0.1) * 0.001
-    lon = 28.9784 + np.cos(t * 0.1) * 0.001
-    
-    return {
-        "roll": np.sin(t) * 5,
-        "pitch": np.cos(t * 0.5) * 3,
-        "yaw": (t * 10) % 360,
-        "altitude": 20 + np.sin(t * 0.2) * 2,
-        "battery": max(0, 95 - (t % 300) / 3),
-        "speed": 8 + np.random.normal(0, 0.5),
-        "lat": lat,
-        "lon": lon
-    }
+# Data Source Logic
+def get_data():
+    if connection_mode == "MAVLink (Donanım/SITL)" and st.session_state.mav_bridge.connected:
+        state = st.session_state.mav_bridge.state
+        return {
+            "roll": state["roll"],
+            "pitch": state["pitch"],
+            "yaw": state["yaw"],
+            "altitude": state["alt"],
+            "battery": state["battery"],
+            "speed": 0.0, # Adding speed to mavlink bridge later
+            "lat": state["lat"] if state["lat"] != 0 else 41.0082,
+            "lon": state["lon"] if state["lon"] != 0 else 28.9784,
+            "mode": state["mode"]
+        }
+    else:
+        # Simulation
+        t = time.time()
+        lat = 41.0082 + np.sin(t * 0.1) * 0.001
+        lon = 28.9784 + np.cos(t * 0.1) * 0.001
+        return {
+            "roll": np.sin(t) * 5,
+            "pitch": np.cos(t * 0.5) * 3,
+            "yaw": (t * 10) % 360,
+            "altitude": 20 + np.sin(t * 0.2) * 2,
+            "battery": max(0, 95 - (t % 300) / 3),
+            "speed": 8 + np.random.normal(0, 0.5),
+            "lat": lat,
+            "lon": lon,
+            "mode": "SIMULATION"
+        }
 
-data = get_mock_data()
+data = get_data()
 
 # Layout
 col1, col2 = st.columns([2, 1])
@@ -156,7 +197,7 @@ with col2:
     
     m3, m4 = st.columns(2)
     m3.metric("Pil", f"{data['battery']:.1f} %", "-0.1 %")
-    m4.metric("GPS Uydu", "12", "+1")
+    m4.metric("Mod", data["mode"])
     
     st.divider()
     
