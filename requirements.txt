@@ -1,0 +1,13 @@
+numpy>=1.24.0
+opencv-python>=4.8.0
+ultralytics>=8.0.0
+streamlit>=1.25.0
+pyserial>=3.5
+pandas>=2.0.0
+matplotlib>=3.7.0
+scipy>=1.10.0
+filterpy>=1.4.5
+pygame>=2.5.0  # For simulation visualization if needed
+pytest>=7.4.0
+black>=23.7.0
+flake8>=6.1.0
