@@ -1,134 +1,134 @@
-# 🛸 SkyGuard AI: Autonomous Aviation System
+# 🛸 SkyGuard AI: Otonom Havacılık Sistemi
 
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Lisans](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.9%2B-blue)](https://www.python.org/)
-[![Teknofest](https://img.shields.io/badge/Target-Teknofest_2026-red)](https://www.teknofest.org/)
-[![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Teknofest](https://img.shields.io/badge/Hedef-Teknofest_2026-red)](https://www.teknofest.org/)
+[![Kod Stili: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 > **"Göklerdeki Gözünüz, Yerdeki Gücünüz"**
 
-**SkyGuard AI** is a comprehensive autonomous unmanned aerial vehicle (UAV) software suite designed for the **Teknofest Artificial Intelligence in Transportation** competition. It integrates cutting-edge computer vision with robust flight control algorithms to detect objects, navigate autonomously, and provide real-time telemetry to a ground control station.
+**SkyGuard AI**, **Teknofest Ulaşımda Yapay Zeka** yarışması için tasarlanmış kapsamlı bir otonom insansız hava aracı (İHA) yazılım paketidir. Nesneleri tespit etmek, otonom olarak gezinmek ve yer kontrol istasyonuna gerçek zamanlı telemetri sağlamak için son teknoloji bilgisayarlı görü ile sağlam uçuş kontrol algoritmalarını birleştirir.
 
 ---
 
-## 🏗️ Architecture
+## 🏗️ Mimari
 
-The system is built on a modular architecture to ensure scalability and ease of testing.
+Sistem, ölçeklenebilirlik ve test kolaylığı sağlamak için modüler bir mimari üzerine inşa edilmiştir.
 
 ```mermaid
 graph TD
-    A[Camera Feed] -->|Frames| B(Vision Module)
-    B -->|Detections| C{Decision Logic}
-    C -->|Commands| D[Control Module]
-    D -->|PWM Signals| E[Flight Controller (Pixhawk/Sim)]
-    D -->|Telemetry Data| F[Telemetry Logger]
-    F -->|WebSocket/Serial| G[Ground Control Station (Streamlit)]
+    A[Kamera Görüntüsü] -->|Kareler| B(Görüntü İşleme Modülü)
+    B -->|Tespitler| C{Karar Mekanizması}
+    C -->|Komutlar| D[Kontrol Modülü]
+    D -->|PWM Sinyalleri| E[Uçuş Kontrolcüsü (Pixhawk/Sim)]
+    D -->|Telemetri Verisi| F[Telemetri Kayıtçısı]
+    F -->|WebSocket/Seri| G[Yer Kontrol İstasyonu (Streamlit)]
 ```
 
-### Core Components
+### Temel Bileşenler
 
-- **👁️ Vision Module**: Powered by **YOLOv8**, capable of real-time object detection and tracking specifically tuned for aerial imagery.
-- **🎮 Control Module**: Implements **PID controllers** for stable flight dynamics and autonomous path following.
-- **📡 Telemetry & Logging**: Real-time data streaming and "Black Box" logging for post-flight analysis.
-- **🖥️ Ground Control Station (GCS)**: A modern, web-based dashboard built with **Streamlit** for monitoring flight status, battery levels, and live video feeds.
-
----
-
-## 🚀 Vision & Features
-
-### 1. Autonomous Navigation
-- **Waypoint Navigation**: Follows a predefined 3D path.
-- **Obstacle Avoidance**: Detects and maneuvers around static and dynamic obstacles.
-
-### 2. Advanced Object Detection
-- **Target Locking**: Identifies specific targets (encoded markers, vehicles, people).
-- **Landing Zone Detection**: Automatically finds safe landing spots using visual cues.
-
-### 3. Smart Fail-safes
-- **Return-to-Launch (RTL)**: Activates on signal loss or low battery.
-- **Emergency Hover**: Stabilizes immediately upon detecting anomalous sensor data.
+- **👁️ Görüntü İşleme Modülü**: Hava görüntüleri için özel olarak ayarlanmış, gerçek zamanlı nesne tespiti ve takibi yapabilen **YOLOv8** ile güçlendirilmiştir.
+- **🎮 Kontrol Modülü**: Kararlı uçuş dinamiği ve otonom yol takibi için **PID kontrolcüleri** uygular.
+- **📡 Telemetri & Kayıt**: Uçuş sonrası analiz için gerçek zamanlı veri akışı ve "Kara Kutu" kaydı.
+- **🖥️ Yer Kontrol İstasyonu (YKİ)**: Uçuş durumunu, pil seviyelerini ve canlı video akışlarını izlemek için **Streamlit** ile oluşturulmuş modern, web tabanlı bir panel.
 
 ---
 
-## 🛠️ Installation
+## 🚀 Yetenekler & Özellikler
 
-### Prerequisites
+### 1. Otonom Seyrüsefer
+- **Waypoint (Nokta) Seyrüsefer**: Önceden tanımlanmış 3B bir rotayı takip eder.
+- **Engel Saffetme**: Statik ve dinamik engelleri algılar ve etrafından dolaşır.
+
+### 2. Gelişmiş Nesne Tespiti
+- **Hedef Kilitleme**: Belirli hedefleri (kodlanmış işaretçiler, araçlar, insanlar) tanımlar.
+- **İniş Bölgesi Tespiti**: Görsel ipuçlarını kullanarak güvenli iniş noktalarını otomatik olarak bulur.
+
+### 3. Akıllı Güvenlik Önlemleri
+- **Eve Dönüş (RTL)**: Sinyal kaybı veya düşük pil durumunda devreye girer.
+- **Acil Durum Havada Asılı Kalma (Hover)**: Anormal sensör verileri algılandığında derhal stabilizasyon sağlar.
+
+---
+
+## 🛠️ Kurulum
+
+### Gereksinimler
 - Python 3.9+
-- CUDA-compatible GPU (recommended for YOLOv8 training/inference)
+- CUDA uyumlu GPU (YOLOv8 eğitimi/çıkarımı için önerilir)
 
-### Setup
+### Adımlar
 
-1. **Clone the repository**
+1. **Repoyu klonlayın**
    ```bash
    git clone https://github.com/bahattinyunus/teknofest_havacilikta_yapay_zeka.git
    cd teknofest_havacilikta_yapay_zeka
    ```
 
-2. **Install dependencies**
+2. **Bağımlılıkları yükleyin**
    ```bash
    pip install -r requirements.txt
    ```
 
-3. **Install Pre-commit hooks (Optional)**
+3. **Pre-commit kancalarını yükleyin (İsteğe bağlı)**
    ```bash
    pre-commit install
    ```
 
 ---
 
-## 💻 Usage
+## 💻 Kullanım
 
-### 1. Run the Ground Control Station
-Start the dashboard to monitor system status.
+### 1. Yer Kontrol İstasyonunu Başlatın
+Sistem durumunu izlemek için paneli başlatın.
 ```bash
 streamlit run dashboard.py
 ```
 
-### 2. Start the Autonomous Mission
-Execute the main flight script.
+### 2. Otonom Görevi Başlatın
+Ana uçuş senaryosunu çalıştırın.
 ```bash
-python main.py --mission mission_1.json
+python main.py --mission gorev_1.json
 ```
 
 ---
 
-## 📂 Project Structure
+## 📂 Proje Yapısı
 
 ```
 teknofest_havacilikta_yapay_zeka/
-├── data/                  # Datasets & Logs
-├── models/                # Trained YOLOv8 models
-├── src/                   # Source Code
-│   ├── control/           # Flight dynamics & PID
-│   ├── telemtry/          # Data logging & Comm
-│   ├── vision/            # Computer Vision pipelines
-│   └── utils/             # Helper functions
-├── tests/                 # Unit Tests
-├── dashboard.py           # Streamlit GCS App
-├── main.py                # Main Entry Point
-└── requirements.txt       # Project Dependencies
+├── data/                  # Veri Setleri & Loglar
+├── models/                # Eğitilmiş YOLOv8 modelleri
+├── src/                   # Kaynak Kod
+│   ├── control/           # Uçuş dinamiği & PID
+│   ├── telemtry/          # Veri kaydı & İletişim
+│   ├── vision/            # Bilgisayarlı Görü akışları
+│   └── utils/             # Yardımcı fonksiyonlar
+├── tests/                 # Birim Testleri
+├── dashboard.py           # Streamlit YKİ Uygulaması
+├── main.py                # Ana Giriş Noktası
+└── requirements.txt       # Proje Bağımlılıkları
 ```
 
 ---
 
-## 🤝 Contributing
+## 🤝 Katkıda Bulunma
 
-Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests.
+Katkılarınızı bekliyoruz! Lütfen kod kurallarımız ve pull request gönderme süreci hakkında ayrıntılar için [CONTRIBUTING.md](CONTRIBUTING.md) dosyasına bakın.
 
-1. Fork it!
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request :D
+1. Forklayın!
+2. Özellik dalınızı (branch) oluşturun: `git checkout -b yeni-ozellik`
+3. Değişikliklerinizi commitleyin: `git commit -am 'Yeni bir özellik ekle'`
+4. Dalınıza pushlayın: `git push origin yeni-ozellik`
+5. Bir Pull Request oluşturun :D
 
 ---
 
-## 📜 License
+## 📜 Lisans
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Bu proje MIT Lisansı altında lisanslanmıştır - detaylar için [LICENSE](LICENSE) dosyasına bakın.
 
 ---
 
 <p align="center">
-  Made with ❤️ by <a href="https://github.com/bahattinyunus">Bahattin Yunus</a> for Teknofest
+  Teknofest için <a href="https://github.com/bahattinyunus">Bahattin Yunus</a> tarafından ❤️ ile yapılmıştır
 </p>

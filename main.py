@@ -7,20 +7,20 @@ from src.control.flight_controller import FlightController
 from src.telemetry.logger import TelemetryLogger
 
 def main(mission_file=None):
-    print("Initializing SkyGuard AI...")
+    print("SkyGuard AI Baslatiliyor...")
     
     # Initialize modules
     try:
         detector = ObjectDetector() # Will create dummy if model not found
         controller = FlightController()
         logger = TelemetryLogger()
-        print("Modules loaded successfully.")
+        print("Moduller basariyla yuklendi.")
     except Exception as e:
-        print(f"Error initializing modules: {e}")
+        print(f"Moduller baslatilirken hata: {e}")
         return
 
     # Simulation loop
-    print("Starting Main Loop...")
+    print("Ana Dongu Baslatiliyor...")
     controller.arm()
     
     try:
@@ -51,18 +51,18 @@ def main(mission_file=None):
             logger.log(current_state, detections)
             
             # 5. Output status
-            print(f"Status: {current_state['mode']} | Alt: {current_state['altitude']}m | Motors: {motor_outputs}", end='\r')
+            print(f"Durum: {current_state['mode']} | Irtifa: {current_state['altitude']}m | Motorlar: {motor_outputs}", end='\r')
             
             time.sleep(0.1) # 10Hz loop
             
     except KeyboardInterrupt:
-        print("\nStopping SkyGuard AI...")
+        print("\nSkyGuard AI Durduruluyor...")
         controller.disarm()
         sys.exit(0)
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="SkyGuard AI Main Control Loop")
-    parser.add_argument("--mission", type=str, help="Path to mission file (JSON)")
+    parser = argparse.ArgumentParser(description="SkyGuard AI Ana Kontrol Dongusu")
+    parser.add_argument("--mission", type=str, help="Gorev dosyasi yolu (JSON)")
     args = parser.parse_args()
     
     main(args.mission)

@@ -1,33 +1,33 @@
 @echo off
 echo ==========================================
-echo      SkyGuard AI Environment Setup
+echo      SkyGuard AI Ortam Kurulumu
 echo ==========================================
 
 python --version >nul 2>&1
 if %errorlevel% neq 0 (
-    echo [ERROR] Python is not installed or not in PATH.
+    echo [HATA] Python yuklu degil veya PATH'e eklenmemis.
     pause
     exit /b
 )
 
-echo [INFO] Creating virtual environment...
+echo [BILGI] Sanal ortam olusturuluyor...
 python -m venv venv
 
-echo [INFO] Activating virtual environment...
+echo [BILGI] Sanal ortam aktif ediliyor...
 call venv\Scripts\activate
 
-echo [INFO] Installing dependencies...
+echo [BILGI] Bagimliliklar yukleniyor...
 pip install -r requirements.txt
 
 echo.
 echo ==========================================
-echo        Setup Complete!
+echo        Kurulum Tamamlandi!
 echo ==========================================
 echo.
-echo To run the dashboard:
+echo Kontrol panelini calistirmak icin:
 echo    streamlit run dashboard.py
 echo.
-echo To run the main mission loop:
+echo Ana gorev dongusunu calistirmak icin:
 echo    python main.py
 echo.
 pause
