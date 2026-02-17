@@ -1,0 +1,38 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.9, pytest-9.0.2, pluggy-1.6.0
+rootdir: G:\Diðer bilgisayarlar\Dizüstü Bilgisayarým\github repolarým\teknofest_havacilikta_yapay_zeka
+plugins: anyio-4.12.1, langsmith-0.6.8
+collected 5 items
+
+tests\test_control.py FF...                                              [100%]
+
+================================== FAILURES ===================================
+__________________________ TestPID.test_proportional __________________________
+
+self = <test_control.TestPID object at 0x000001AE95CF66D0>
+
+    def test_proportional(self):
+        pid = PIDController(kp=1.0, ki=0.0, kd=0.0, setpoint=10)
+        output = pid.update(0)
+>       assert output == 10.0 # Error is 10, kp is 1 -> output 10
+        ^^^^^^^^^^^^^^^^^^^^^
+E       assert 0 == 10.0
+
+tests\test_control.py:14: AssertionError
+________________________ TestPID.test_setpoint_change _________________________
+
+self = <test_control.TestPID object at 0x000001AEC3F68310>
+
+    def test_setpoint_change(self):
+        pid = PIDController(kp=0.5, ki=0.0, kd=0.0)
+        pid.setpoint = 100
+        output = pid.update(50)
+>       assert output == 25.0 # Error 50 * 0.5 = 25
+        ^^^^^^^^^^^^^^^^^^^^^
+E       assert 0 == 25.0
+
+tests\test_control.py:20: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_control.py::TestPID::test_proportional - assert 0 == 10.0
+FAILED tests/test_control.py::TestPID::test_setpoint_change - assert 0 == 25.0
+========================= 2 failed, 3 passed in 0.43s =========================

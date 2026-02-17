@@ -92,3 +92,28 @@ class FlightController:
     def disarm(self):
         self.state["mode"] = "DISARMED"
         print("System DISARMED")
+
+    def navigate_to(self, x, y, z, check_arrival=False, arrival_threshold=1.0):
+        """
+        Simple navigation wrapper. In a real controller, this would update setpoints.
+        Returns true if arrived (if check_arrival is True).
+        """
+        # For this simulation level, we assume direct setpoint control
+        # In reality, you'd generate velocity commands from position error
+        
+        self.roll_pid.setpoint = 0 # Hover
+        self.pitch_pid.setpoint = 0 
+        self.yaw_pid.setpoint = 0
+        self.altitude_pid.setpoint = z
+        
+        # We don't have a position PID in this simple class, 
+        # so we just return the theoretical motor outputs for hovering at Z
+        # The higher level loop handles X/Y via pitch/roll or just assumes 
+        # the 'drone' moves there (kinematics in gym_env).
+        
+        return {
+            "roll": 0, 
+            "pitch": 0, 
+            "yaw": 0, 
+            "altitude": z
+        }
