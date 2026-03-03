@@ -21,6 +21,36 @@
 
 ---
 
+## 🔍 Kapsamlı Araştırma ve Rakip Analizi
+
+SkyGuard AI geliştirme sürecinde, hem yerel (Teknofest) hem de uluslararası havacılık ve yapay zeka ekosistemi derinlemesine analiz edilmiştir. Bu analiz, sistemimizin stratejik konumlandırılmasını ve teknik üstünlüklerini belirlemek için kritik öneme sahiptir.
+
+### 🌐 Benzer Yarışmalar ve Platformlar
+SkyGuard AI mimarisi, aşağıdaki prestijli yarışmaların teknik gereksinimlerini de karşılayacak esnekliktedir:
+- **Teknofest Savaşan İHA**: İleri seviye it dalaşı ve otonom hedef takibi (Visual Servoing modülümüz bu görev için optimize edilmiştir).
+- **Teknofest Robotaksi**: Otonom navigasyon ve trafik işaretleri algılama (A* Path Planner ve YOLOv8 entegrasyonumuzun temeli).
+- **MICCAI BraTS & AirSim Challenges**: Uluslararası otonom uçuş ve simülasyon tabanlı yapay zeka yarışmaları.
+
+### 📊 Rakip ve Açık Kaynak Analizi
+Aşağıdaki tablo, SkyGuard AI'ın mevcut popüler açık kaynak çözümlerle karşılaştırmasını sunar:
+
+| Özellik | ArduPilot / PX4 | Standart Kaggle Projeleri | **SkyGuard AI (Elite Ed.)** |
+| :--- | :--- | :--- | :--- |
+| **Kontrol Mantığı** | PID (Kural Tabanlı) | Sadece Görüntü İşleme | **Hibrit (PID + RL + Visual Servo)** |
+| **Donanım Soyutlama** | Kısıtlı | Yok | **MAVLink Professional Bridge** |
+| **Yol Planlama** | Waypoint Odyssey | Yok | **Dinamik A* & Engel Sakınma** |
+| **Durumsal Farkındalık** | Sensör Verisi | Saf YOLO | **Kalman Filtered Tracking & ROI** |
+| **Geliştirici Deneyimi** | CLI / Karmaşık | Notebook | **Elite Streamlit Dashboard (GCS)** |
+
+### 📂 Faydalanılan ve İlham Alınan Kaynak Kodlar
+Projenin "Devlerin Omuzlarında" yükselmesi için referans alınan kritik açık kaynak projeler:
+- [ArduPilot/PX4 Autopilot](https://github.com/ArduPilot/ardupilot): Uçuş kontrolcü iletişim standartları.
+- [Ultralytics YOLOv8](https://github.com/ultralytics/ultralytics): Görüntü işleme omurgası.
+- [Stable Baselines3](https://github.com/DLR-RM/stable-baselines3): Reinforcement Learning algoritmaları.
+- [Dronekit-Python Examples](https://github.com/dronekit/dronekit-python): Otonom uçuş betikleri.
+
+---
+
 ## 🔭 Vizyon
 
 **SkyGuard AI**, sıradan bir drone yazılımı olmanın ötesinde, otonom hava araçlarının "kognitif işletim sistemi" olma hedefiyle tasarlanmıştır. Geleneksel yöntemlerin (Rule-based) yetersiz kaldığı, değişken ve kaotik saha koşullarında; **Derin Öğrenme (DL)**, **Pekiştirmeli Öğrenme (RL)** ve **Gelişmiş Kontrol Teorisi'ni** kusursuz bir hibrit yapıda birleştirir. 
